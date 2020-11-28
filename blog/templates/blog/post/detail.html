@@ -8,4 +8,8 @@
         Published {{post.publish}} by {{post.author}}
     </p>
     {{ post.body|linebreaks }}
+    <a href="{% url 'blog:post_share' post.id %}">
+        <!-- Here, we are building the URL dynamically, by using the "url" tag as provided by the Django -->
+        Share this post
+    </a>
 {% endblock %}
