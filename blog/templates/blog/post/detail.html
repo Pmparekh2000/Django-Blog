@@ -12,4 +12,47 @@
         <!-- Here, we are building the URL dynamically, by using the "url" tag as provided by the Django -->
         Share this post
     </a>
+    {% with comments.count as total_comments %}
+        <h2>
+            {{ total_comments }} comment{{ total_comments| pluralize }}
+        </h2>
+    {% endwith %}
+    <table>
+        {% if comments.count > 0 %}
+        <tr>
+            <td>Sr No.</td>
+            <td>Author</td>
+            <td>Date of publish</td>
+            <td>Comment</td>
+        </tr>
+        {% endif %}
+        {% for comment in comments %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ comment.name }}</td>
+            <td>{{ comment.created }}</td>
+            <td>{{ comment.body|linebreaks }}</td>
+        </tr>
+            <!-- <div class="comment">
+                <p class="info">
+                    Comment {{ forloop.counter }} by {{ comment.name }}
+                    {{ comment.created }}
+                </p>
+                {{ comment.body|linebreaks }}
+            </div> -->
+        {% empty %}
+            <p>There are no comments yet.</p>
+        {% endfor %}
+    </table>
+    {% if new_comment %}
+        <h2>Your comment has been added.</h2>
+    {% endif %}
+    
+    <h2>Add a new comment</h2>
+    <form action="." method="post">
+        {{ comment_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Add comment"></p>
+    </form>
+    
 {% endblock %}
